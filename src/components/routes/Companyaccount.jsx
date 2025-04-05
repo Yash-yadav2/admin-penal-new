@@ -95,7 +95,7 @@ export default function Companyaccount() {
   return (
     <div className="p-5 bg-gray-100 min-h-screen">
       <header className="max-w-7xl mx-auto mb-8">
-        <h2 className="text-4xl font-extrabold text-center text-gray-800">Finance Panel</h2>
+        <h2 className="text-4xl font-extrabold text-center text-gray-800">Admin Panel</h2>
         <p className="text-center text-gray-600 mt-2">Manage Company Accounts with Ease</p>
       </header>
 

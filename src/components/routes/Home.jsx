@@ -5,6 +5,7 @@ import TransactionPanel from "./Transaction";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/authSlice";
 import Companyaccount from "./Companyaccount";
+import Createuser from "../Createuser";
 
 
 const Home = () => {
@@ -65,6 +66,12 @@ const Home = () => {
         >
           Company Account
         </Button>
+        <Button
+          onClick={() => handleTabChange("Createuser")}
+          className={`px-4 py-2 rounded-md ${activeTab === "Createuser" ? "bg-blue-500 text-white" : "bg-gray-300"}`}
+        >
+          Create user
+        </Button>
       </div>
 
      
@@ -82,6 +89,11 @@ const Home = () => {
       {activeTab === "Companyaccount" && (
         <div className="mt-4">
           <Companyaccount/>
+        </div>
+      )}
+      {activeTab === "Createuser" && (
+        <div className="mt-4">
+          <Createuser/>
         </div>
       )}
     </div>
