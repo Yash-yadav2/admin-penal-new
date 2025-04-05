@@ -102,14 +102,6 @@ export default function AuthPage() {
           </Button>
         </form>
 
-         <p
-          className="text-center mt-6 text-gray-500 cursor-pointer hover:underline"
-          onClick={toggleAuthMode}
-        >
-          {isLogin
-            ? "Don't have an account? Sign Up"
-            : "Already have an account? Login"}
-        </p>
       </div>
     </div>
   );

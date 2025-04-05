@@ -11,6 +11,11 @@ const initialState = {
   isAuthenticated: !!initialUser,
   loading: false,
   error: null,
+  userCreate: {
+    loading: false,
+    success: false,
+    error: null
+  }
 };
 
 // 🔹 **Login User**
@@ -26,6 +31,19 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// 🔹 **Create User By Admin** - converted to createAsyncThunk
+export const createUserByAdmin = createAsyncThunk(
+  "auth/createUserByAdmin",
+  async (userData, { rejectWithValue }) => {
+    try {
+      const config = { headers: { "Content-Type": "application/json" } };
+      const { data } = await axios.post("/admin/create-user", userData, config);
+      return data.message;
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message || "Something went wrong");
+    }
+  }
+);
 
 // 🔹 **Register User**
 export const registerUser = createAsyncThunk(
@@ -100,6 +118,13 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    resetUserCreateState: (state) => {
+      state.userCreate = {
+        loading: false,
+        success: false,
+        error: null
+      };
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -117,6 +142,23 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+
+      // Create User By Admin Cases
+      .addCase(createUserByAdmin.pending, (state) => {
+        state.userCreate.loading = true;
+        state.userCreate.success = false;
+        state.userCreate.error = null;
+      })
+      .addCase(createUserByAdmin.fulfilled, (state, action) => {
+        state.userCreate.loading = false;
+        state.userCreate.success = true;
+        state.userCreate.error = null;
+      })
+      .addCase(createUserByAdmin.rejected, (state, action) => {
+        state.userCreate.loading = false;
+        state.userCreate.success = false;
+        state.userCreate.error = action.payload;
       })
 
       // Register Cases
@@ -185,5 +227,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { login, logout, updateUserProfile, clearError } = authSlice.actions;
+export const { login, logout, updateUserProfile, clearError, resetUserCreateState } = authSlice.actions;
 export default authSlice.reducer;
